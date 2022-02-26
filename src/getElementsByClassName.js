@@ -4,7 +4,28 @@
 // };
 
 // But instead we're going to implement it from scratch:
-var getElementsByClassName = function(className
+var getElementsByClassName = function(className, node
 ) {
-  // your code here
+  var results = [];
+  var currentNode = node || document.body;
+  var classList = currentNode.classList;
+
+  if (classList.contains(className)) {
+    results.push(currentNode);
+  }
+
+  // BASE CASE
+  if (currentNode.childNodes.length === 0) {
+    return results;
+  }
+
+  // RECURSIVE CASE
+  if (currentNode.childNodes.length > 0) {
+    _.each(currentNode.childNodes, function (childNode) {
+      if (childNode.classList) {
+        results = results.concat(getElementsByClassName(className, childNode));
+      }
+    });
+  }
+  return results;
 };
